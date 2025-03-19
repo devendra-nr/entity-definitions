@@ -1,38 +1,40 @@
 domain: DPO
-type: DATASET_VERSIONS
+type: OLIN_JOBS
 synthesis:
   rules:
   - compositeIdentifier:
         separator: ":"
         attributes:
-          - dataset.namespace
-          - dataset.name
-          - updatedAt
-    name: dataset.name
+          - job.namespace
+          - job.name
+          - eventTime
+    name: job.name
     encodeIdentifierInGUID: true
     conditions:
+    - attribute: newrelic.entity.type
+      value: DPO
     - attribute: eventTime
       present: true
     - attribute: updatedAt
-      present: true
+      present: false
     - attribute: producer
       present: true
     - attribute: schemaURL
       present: true
-    - attribute: dataset.namespace
+    - attribute: job.namespace
       present: true
-    - attribute: dataset.name
+    - attribute: job.name
       present: true
     tags:
-      dataset.namespace:
-        entityTagName: olin.dataset.namespace
+      job.namespace:
+        entityTagName: olin.job.namespace
         multiValue: false
-      dataset.name:
-        entityTagName: olin.dataset.name
+      job.name:
+        entityTagName: olin.job.name
         multiValue: false
-      dataset.updatedAt:
-        entityTagName: olin.dataset.updatedAt
+      pipeline.name:
+        entityTagName: olin.pipeline.name
         multiValue: false
 configuration:
-  entityExpirationTime: MANUAL
+  entityExpirationTime: QUARTERLY
   alertable: true
